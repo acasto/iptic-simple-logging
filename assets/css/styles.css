@@ -1,0 +1,49 @@
+
+table.pr-select td,
+table.pr-select th { padding: 5px 10px; }
+
+#rebarModal { display: none; }
+#rebarModal .modal-dialog { margin-top: 400px; }
+
+.frm-alt-table .tablesorter-header { border-color: #eeeeee; padding: 10px; }
+.frm-alt-table .tablesorter-header-inner { color: #444444; }
+
+.frm-alt-table td { padding: 10px; }
+
+
+.po-details .contact-info { 
+    width: 100%; 
+    border-bottom: 1px solid black; 
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.po-details .contact-info .company-address { 
+    float: left;
+}
+
+.po-details .contact-info .vendor-address {
+    float: right;
+}
+
+
+.po-print { 
+    font-size: 1.2em; 
+    font-weight: 800;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 20px;
+}
+.po-edit { 
+    display: block; 
+    width: 100%; 
+    margin-top: 100px; 
+    border-top: 1px solid #ddd;
+}
+
+@media print {
+    .fl-builder-content-510, .fl-builder-content-549 { display: none; }
+    .po-edit, .po-print { display: none; }
+    .hide-print { display: none; }
+ }
+ 
