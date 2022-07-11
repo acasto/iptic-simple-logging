@@ -1,5 +1,7 @@
 <?php
 
+use Iptic\SL\Activator;
+
 /**
  * The plugin bootstrap file
  *
@@ -34,9 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 require_once( 'classes/Autoload.php' );
 new Iptic\SL\Autoload();
 
-$filesub = basename( dirname( __DIR__ ) ) . '/' . basename( __FILE__ );
-
 // register the activation/deactivation functions
-register_activation_hook( $filesub, 'Iptic\SL\Activator::run' );
-register_deactivation_hook( $filesub, 'Iptic\SL\Deactivator::run' );
-
+register_activation_hook( __FILE__, '\Iptic\SL\Activator::run' );
+register_deactivation_hook( __FILE__, '\Iptic\SL\Deactivator::run' );
+register_uninstall_hook( __FILE__, '\Iptic\SL\Uninstall::run' );

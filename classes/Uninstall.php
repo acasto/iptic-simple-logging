@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Fired during plugin deactivation
+ * Fired during plugin activation
  *
  * @link       http://iptic.com
  * @since      0.1.0
@@ -13,14 +13,14 @@ namespace Iptic\SL;
 defined( 'ABSPATH' ) or exit;
 
 /**
- * Fired during plugin deactivation.
+ * Fired during plugin activation.
  *
- * This class defines all code necessary to run during the plugin's deactivation.
+ * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      0.1.0
  * @author     Adam Casto <adam@iptic.com>
  */
-class Deactivator {
+class Uninstall {
 
 	/**
 	 * Short Description. (use period)
@@ -34,10 +34,14 @@ class Deactivator {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
-		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
-		check_admin_referer( "deactivate-plugin_{$plugin}" );
+		check_admin_referer( 'bulk-plugins' );
 		
-		flush_rewrite_rules();
-	}
+		// Important: Check if the file is the one
+		// that was registered during the uninstall hook.
+		if ( __FILE__ !== WP_UNINSTALL_PLUGIN ) {
+			return;
+		}
 
+	}
+	
 }
