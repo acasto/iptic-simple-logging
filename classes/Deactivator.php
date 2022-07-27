@@ -34,8 +34,8 @@ class Deactivator {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
-		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
-		check_admin_referer( "deactivate-plugin_{$plugin}" );
+		$plugin = $_REQUEST['plugin'] ?? '';
+		check_admin_referer( "deactivate-plugin_$plugin" );
 		
 		flush_rewrite_rules();
 	}

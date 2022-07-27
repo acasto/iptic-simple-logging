@@ -41,6 +41,8 @@ class Uninstall {
 		if ( __FILE__ !== WP_UNINSTALL_PLUGIN ) {
 			return;
 		}
+		
+		// some code here to run during uninstallation
 
 	}
 	

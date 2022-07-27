@@ -1,7 +1,5 @@
 <?php
 
-use Iptic\SL\Activator;
-
 /**
  * The plugin bootstrap file
  *
@@ -40,3 +38,4 @@ new Iptic\SL\Autoload();
 register_activation_hook( __FILE__, '\Iptic\SL\Activator::run' );
 register_deactivation_hook( __FILE__, '\Iptic\SL\Deactivator::run' );
 register_uninstall_hook( __FILE__, '\Iptic\SL\Uninstall::run' );
+
