@@ -37,22 +37,24 @@ class Log {
 		$sql = "CREATE TABLE $table_name (
 			id mediumint UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 			time timestamp NOT NULL,
+			message text NOT NULL,
+			data tinytext,
+			user varchar(60),
 			facility varchar(20),
 			level varchar(20),
-			user varchar(60),
-			message text NOT NULL,
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 		
 		// use code below to do db upgrade in the future
 		//if ( version_compare( $version, '2.0' ) < 0 ) {
 		//$sql = "CREATE TABLE $table_name (
-		//	id mediumint UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+		//  id mediumint UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 		//	time timestamp NOT NULL,
+		//	message text NOT NULL,
+		//	data tinytext,
+		//	user varchar(60),
 		//	facility varchar(20),
 		//	level varchar(20),
-		//	user varchar(60),
-		//	message text NOT NULL,
 		//	PRIMARY KEY  (id)
 		//	) $charset_collate;";
 		//}
@@ -67,50 +69,93 @@ class Log {
 	 * Logs a message to the database
 	 *
 	 * @param string $message
-	 * @param null $user
-	 * @param null $facility
-	 * @param null $level
+	 * @param array  $args
 	 *
 	 * @return void
 	 */
-	public static function log( string $message, $user = null, $facility = null, $level = null ): void {
+	public static function log( string $message, array $args = array() ): void {
 		global $wpdb;
-		$data = array(
+		$sql_data = array(
 			'time'      => current_time( 'mysql' ),
-			'user'      => $user,
-			'facility'  => $facility,
-			'level'     => $level,
+			'user'      => $args['user'] ?? null,
+			'facility'  => $args['facility'] ?? null,
+			'level'     => $args['level'] ?? null,
 			'message'   => $message,
+			'data'      => $args['data'] ?? null,
 		);
-		$wpdb->insert( self::_table(), $data );
+		$wpdb->insert( self::_table(), $sql_data );
 	}
 	
 	/**
 	 * Returns the log as an array, can be filtered by facility and level
 	 *
-	 * @param null $facility
-	 * @param null $level
-	 * @param null $user
+	 * @param array $args
 	 * @param string $output
-	 *
+	 
 	 * @return  array
-	 *@since   0.1.0
+	 * @since   0.1.0
 	 * @noinspection PhpUnused
 	 */
-	public static function get_logs( $user = null, $facility = null, $level = null, string $output = 'OBJECT' ): array {
+	public static function get_logs( array $args, string $output = 'OBJECT' ): array {
 		global $wpdb;
 		$table_name = self::_table();
+		
+		// start building up the where statement
 		$where = '';
-		if ( $user ) {
-			$where .= " AND user = '$user'";
+		
+		// list of columns to check for in the where statement
+		$cols = array(
+			'user',
+			'facility',
+			'level',
+			'message',
+			'data',
+		);
+		
+		// figure out the comparison operator to use
+		if ( isset($args['comp']) && ( $args['comp'] === 'like' || $args['comp'] === 'LIKE' ) ) {
+			$comp = 'LIKE';
+		} else {
+			$comp = '=';
 		}
-		if ( $facility ) {
-			$where .= " AND facility = '$facility'";
+		
+		// process the columns
+		foreach ( $cols as $col ) {
+			if ( isset( $args[$col] ) && $args[$col] !== "" ) {
+				$where .= " AND $col $comp '$args[$col]'";
+			}
 		}
-		if ( $level ) {
-			$where .= " AND level = '$level'";
+		
+		// process any order_by args or default to time
+		if ( isset($args['order_by']) && $args['order_by'] !== "" ) {
+			$order_by = $args['order_by'];
+		} else {
+			$order_by = 'time';
 		}
-		$sql = "SELECT * FROM $table_name WHERE 1 $where ORDER BY time DESC";
+		
+		// set a sort if needed
+		if ( isset($args['sort']) && ( $args['sort'] === 'ASC' || $args['sort'] === 'asc' ) ) {
+			$sort = 'ASC';
+		} else {
+			$sort = 'DESC';
+		}
+		
+		// set a limit if needed
+		if ( isset($args['limit']) && $args['limit'] !== "" ) {
+			$limit = "LIMIT " . $args['limit'];
+		} else {
+			$limit = "";
+		}
+		
+		// set an offset if needed
+		if ( isset($args['offset']) && $args['offset'] !== "" ) {
+			$offset = "OFFSET " . $args['offset'];
+		} else {
+			$offset = "";
+		}
+		
+		// build the query
+		$sql = "SELECT * FROM $table_name WHERE 1 $where ORDER BY $order_by $sort $limit $offset";
 		
 		return $wpdb->get_results( $sql, $output );
 	}
