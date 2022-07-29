@@ -22,6 +22,24 @@ class Log {
 	}
 	
 	/**
+	 * Returns an array of columns for the log table
+	 * This just provides a single reference for so that we don't have to define an array in every
+	 * function that needs to iterate over the columns.
+	 *
+	 * @since 0.1.0
+	 * @return array
+	 */
+	private static function _columns(): array {
+		return array(
+			'user',
+			'facility',
+			'level',
+			'message',
+			'data',
+		);
+	}
+	
+	/**
 	 * Ran at plugin activation and creates the log table and saves db version to options
 	 *
 	 * @since   0.1.0
@@ -100,62 +118,32 @@ class Log {
 		global $wpdb;
 		$table_name = self::_table();
 		
-		// start building up the where statement
-		$where = '';
-		
 		// list of columns to check for in the where statement
-		$cols = array(
-			'user',
-			'facility',
-			'level',
-			'message',
-			'data',
-		);
+		$cols = self::_columns();
 		
 		// figure out the comparison operator to use
-		if ( isset($args['comp']) && ( $args['comp'] === 'like' || $args['comp'] === 'LIKE' ) ) {
-			$comp = 'LIKE';
-		} else {
-			$comp = '=';
-		}
-		
-		// process the columns
+		$comp = ( isset($args['comp']) && ( $args['comp'] === 'like' || $args['comp'] === 'LIKE' ) ) ? 'LIKE' : '=';
+		// process any order_by args or default to time
+		$order_by = ( isset($args['order_by']) && in_array( $args['order_by'], $cols, true ) ) ? $args['order_by'] : 'time';
+		// set the sort order
+		$sort = ( isset($args['sort']) && ( $args['sort'] === 'ASC' || $args['sort'] === 'asc' ) ) ? 'ASC' : 'DESC';
+		// set a limit if needed
+		$limit = ( isset($args['limit']) && is_numeric($args['limit']) ) ? "LIMIT $args[limit]" : '';
+		// set an offset if needed
+		$offset = ( isset($args['offset']) && is_numeric($args['offset']) ) ? "OFFSET $args[offset]" : '';
+
+		// build the where statement in a format that can be used with the $wpdb->prepare() function
+		$where = '';
+		$where_var = array();
 		foreach ( $cols as $col ) {
 			if ( isset( $args[$col] ) && $args[$col] !== "" ) {
-				$where .= " AND $col $comp '$args[$col]'";
+				$where .= " AND $col $comp %s";
+				$where_var[] = $args[$col];
 			}
 		}
 		
-		// process any order_by args or default to time
-		if ( isset($args['order_by']) && $args['order_by'] !== "" ) {
-			$order_by = $args['order_by'];
-		} else {
-			$order_by = 'time';
-		}
-		
-		// set a sort if needed
-		if ( isset($args['sort']) && ( $args['sort'] === 'ASC' || $args['sort'] === 'asc' ) ) {
-			$sort = 'ASC';
-		} else {
-			$sort = 'DESC';
-		}
-		
-		// set a limit if needed
-		if ( isset($args['limit']) && $args['limit'] !== "" ) {
-			$limit = "LIMIT " . $args['limit'];
-		} else {
-			$limit = "";
-		}
-		
-		// set an offset if needed
-		if ( isset($args['offset']) && $args['offset'] !== "" ) {
-			$offset = "OFFSET " . $args['offset'];
-		} else {
-			$offset = "";
-		}
-		
 		// build the query
-		$sql = "SELECT * FROM $table_name WHERE 1 $where ORDER BY $order_by $sort $limit $offset";
+		$sql = $wpdb->prepare("SELECT * FROM $table_name WHERE 1 $where ORDER BY $order_by $sort $limit $offset", $where_var);
 		
 		return $wpdb->get_results( $sql, $output );
 	}
