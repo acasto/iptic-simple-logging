@@ -134,7 +134,7 @@ class Log {
 
 		// build the where statement in a format that can be used with the $wpdb->prepare() function
 		$where = '';
-		$where_var = array();
+		$where_var[] = '1';
 		foreach ( $cols as $col ) {
 			if ( isset( $args[$col] ) && $args[$col] !== "" ) {
 				$where .= " AND $col $comp %s";
@@ -143,7 +143,7 @@ class Log {
 		}
 		
 		// build the query
-		$sql = $wpdb->prepare("SELECT * FROM $table_name WHERE 1 $where ORDER BY $order_by $sort $limit $offset", $where_var);
+		$sql = $wpdb->prepare("SELECT * FROM $table_name WHERE %d $where ORDER BY $order_by $sort $limit $offset", $where_var);
 		
 		return $wpdb->get_results( $sql, $output );
 	}
