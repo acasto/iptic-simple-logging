@@ -123,8 +123,9 @@ class Log {
 		
 		// figure out the comparison operator to use
 		$comp = ( isset($args['comp']) && ( $args['comp'] === 'like' || $args['comp'] === 'LIKE' ) ) ? 'LIKE' : '=';
-		// process any order_by args or default to time
-		$order_by = ( isset($args['order_by']) && in_array( $args['order_by'], $cols, true ) ) ? $args['order_by'] : 'time';
+		// process any order_by args or default to id
+		// note: we use id instead of time to maintain order without dealing with high precision or delays
+		$order_by = ( isset($args['order_by']) && in_array( $args['order_by'], $cols, true ) ) ? $args['order_by'] : 'id';
 		// set the sort order
 		$sort = ( isset($args['sort']) && ( $args['sort'] === 'ASC' || $args['sort'] === 'asc' ) ) ? 'ASC' : 'DESC';
 		// set a limit if needed
