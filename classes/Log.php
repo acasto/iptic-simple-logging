@@ -93,8 +93,9 @@ class Log {
 	 */
 	public static function log( string $message, array $args = array() ): void {
 		global $wpdb;
+        $timezone = !isset($args['tz_local']);
 		$sql_data = array(
-			'time'      => current_time( 'mysql' ),
+			'time'      => current_time( 'mysql', $timezone ),
 			'user'      => $args['user'] ?? null,
 			'facility'  => $args['facility'] ?? null,
 			'level'     => $args['level'] ?? null,
