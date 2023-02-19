@@ -37,8 +37,8 @@ class Activator {
 		$plugin = $_REQUEST['plugin'] ?? '';
 		check_admin_referer( "activate-plugin_$plugin" );
 		
-		flush_rewrite_rules();
-		Log::activate();
+		// create the log table
+		LogDB::activate();
 
 	}
 	

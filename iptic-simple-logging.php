@@ -1,28 +1,20 @@
 <?php
-
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              http://iptic.com
- * @since             0.1.0
- * @package           IpticSL
- *
- * @wordpress-plugin
  * Plugin Name:       Iptic Simple Logging
  * Plugin URI:        http://iptic.com/plugins
  * Description:       A plugin to enable simple logging to the database
  * Version:           0.1.0
  * Author:            Adam Casto
  * Author URI:        http://iptic.com
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       ipticsl
  * Domain Path:       /languages
+ *
+ * This plugin provides a simple logging mechanism to the database.
+ *
+ * @link              http://iptic.com
+ * @since             0.1.0
+ * @package           IpticSL
+ * @wordpress-plugin
  */
 
 // If this file is called directly, abort.
@@ -34,8 +26,23 @@ if ( ! defined( 'WPINC' ) ) {
 require_once( 'classes/Autoload.php' );
 new Iptic\SL\Autoload();
 
+// check for updates
+new Iptic\SL\CheckUpdates( 'iptic-simple-logging' );
+
 // register the activation/deactivation functions
 register_activation_hook( __FILE__, '\Iptic\SL\Activator::run' );
-register_deactivation_hook( __FILE__, '\Iptic\SL\Deactivator::run' );
 register_uninstall_hook( __FILE__, '\Iptic\SL\Uninstall::run' );
+
+// stuff that needs to be run after everything else is loaded
+add_action( 'wp_loaded', static function() {
+	// default logging behavior can be disabled with the isl_default_logging filter
+	if ( apply_filters( 'isl_default_logging', true ) ) {
+		require_once( 'inc/hook_logging.php' );
+	}
+	// admin section can be disabled with the isl_admin filter
+	if ( is_admin() && apply_filters( 'isl_admin', true ) ) {
+		new Iptic\SL\Admin();
+	}
+	
+});
 

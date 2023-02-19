@@ -42,7 +42,15 @@ class Uninstall {
 			return;
 		}
 		
-		// some code here to run during uninstallation
+		// TODO: test this on a remote server since we can't delete locally
+		global $wpdb;
+		
+		// removes the table we created during installation
+		$table_name = Util::table();
+		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+		
+		// removes the option we created during installation
+		delete_option( 'ipticsl_db_version' );
 
 	}
 	
