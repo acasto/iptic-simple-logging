@@ -20,7 +20,7 @@ class CheckUpdates {
 	 * Some constants for the class
 	 */
 	private const DOMAIN = 'iptic.com';
-	private const LICENSE_KEY = 'xxxxxxxxxxxx'; // TODO: replace with your license key
+	private const LICENSE_KEY = 'b8453167-c546-4cdd-9d3a-ff2d7e24d218';
 	// for now, I'm just including the license here as a constant but will eventually have a way to pass it in
 	// externally so that it can be stored in the database for individual licensing.
 	

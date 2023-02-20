@@ -11,12 +11,12 @@ class Log {
 	/**
 	 * Wrapper method for Iptic Simple Logging class to log a message
 	 *
-	 * @param $message
+	 * @param string $message
 	 * @param array $args
 	 *
 	 * @return void
 	 */
-	public static function log( $message, array $args  ): void {
+	public static function log( string $message, array $args  ): void {
 		$args['user']     = $args['user'] ?? wp_get_current_user()->user_login;
 		$args['facility'] = $args['facility'] ?? null;
 		$args['level']    = $args['level'] ?? null;
@@ -29,11 +29,10 @@ class Log {
 	 *
 	 * @param array $args
 	 * @param string $output
-	 *
-	 * @return  array
+	 * @return array|object|null
 	 * @since   0.1.0
 	 */
-	public static function get_logs( array $args, string $output = 'OBJECT' ): array {
+	public static function get_logs( array $args, string $output = 'OBJECT' ) {
 		return LogDB::get_logs( $args, $output );
 	}
 	

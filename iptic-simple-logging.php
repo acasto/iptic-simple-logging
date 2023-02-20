@@ -4,9 +4,10 @@
  * Plugin URI:        http://iptic.com/plugins
  * Description:       A plugin to enable simple logging to the database
  * Version:           0.1.0
+ * Update URI:        https://iptic.com
  * Author:            Adam Casto
  * Author URI:        http://iptic.com
- * Text Domain:       ipticsl
+ * Text Domain:       iptic-simple-logging
  * Domain Path:       /languages
  *
  * This plugin provides a simple logging mechanism to the database.
@@ -45,4 +46,3 @@ add_action( 'wp_loaded', static function() {
 	}
 	
 });
-

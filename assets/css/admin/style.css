@@ -1,6 +1,7 @@
 .toplevel_page_iptic-simple-logging .dataTables_wrapper { margin-top: 25px; margin-right: 25px; }
 .toplevel_page_iptic-simple-logging .dataTables_wrapper input[type=search] { background-color: #ffffff; margin-bottom: 10px; }
 .toplevel_page_iptic-simple-logging .dataTables_wrapper .dataTables_paginate { margin-top: 15px; }
+.toplevel_page_iptic-simple-logging .dataTables_wrapper select[name="DataTables_Table_0_length"] { width: 50px; }
 .toplevel_page_iptic-simple-logging .ipticsl-log-table { background: #ffffff; border: 1px solid #000000; border-collapse: collapse; margin-top: 10px; }
 .toplevel_page_iptic-simple-logging .ipticsl-log-table th { border-color: #000000; border-style: solid; border-width: 0 0 1px 0; padding: 15px 20px; text-align: left; }
 .toplevel_page_iptic-simple-logging .ipticsl-log-table td { padding: 5px 20px; text-align: left; }

@@ -68,14 +68,15 @@ class Admin {
 			'level' => '',
 			'message' => '',
 			'data' => '',
-			'tablesort' => '',
-			'tz_local' => 'true',
+			'tz_local' => 'true', // show the time in the local timezone
 			'comp' => '',
 			'sort' => '',
 			'order_by' => '',
-			'limit' => '',
+			'limit' => '500', // set an arbitrary limit to prevent the table from getting too big
 			'offset' => '',
 		);
+        
+        $atts = apply_filters( self::_plugin_name() . '_log_table_atts', $atts );
 		
 		$log = Log::get_logs( $atts, 'ARRAY_A' );
   
@@ -97,11 +98,12 @@ class Admin {
 		<script>
             jQuery(document).ready(function($) {
                 $('.<?= self::_plugin_name() ?>-log-table').DataTable({
-                    "order": [[ 0, "desc" ]], // Sort the table by the first column in descending order by default
+                    //"order": [[ 0, "desc" ]], // Sort the table by the first column in descending order by default
+                    "order": [], // Don't sort the table by any column by default
                     "pagingType": "full_numbers", // Show pagination controls
-                    "lengthChange": false, // Disable the option to change the number of entries per page
-                    "searching": true, // Enable search
-                    "info": false, // Disable table information display
+                    "lengthChange": true, // show the option to change the number of entries per page
+                    "searching": true, // show search
+                    "info": true, // show table information display
                     "language": {
                         "search": "Search log:", // Change the search placeholder text
                     },

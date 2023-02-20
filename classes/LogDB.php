@@ -113,11 +113,11 @@ class LogDB {
 	 * @param array $args
 	 * @param string $output
 	 
-	 * @return  array
+	 * @return  array|object|null
 	 * @since   0.1.0
 	 * @noinspection PhpUnused
 	 */
-	public static function get_logs( array $args, string $output = 'OBJECT' ): array {
+	public static function get_logs( array $args, string $output = 'OBJECT' ) {
 		global $wpdb;
 		$table_name = self::_table();
 		
