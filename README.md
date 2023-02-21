@@ -1,8 +1,9 @@
 # Description #
-This plugin provides a simple mechanism to log events to a database table and display them in the admin area.
+This plugin provides a simple mechanism to log events to a database table and display them in the 
+admin area using the DataTables library. 
 
-The plugin will log events to the **ipticsl_log** table, which will be created automatically if it does
-not already exist. The table will have the following columns:
+Events are logged to the **ipticsl_log** table, which will 
+be created automatically if it does not already exist. The table will have the following columns:
 
 - **id** - the primary key
 - **time** - the timestamp of the event
@@ -11,7 +12,6 @@ not already exist. The table will have the following columns:
 - **user** - the user the event was logged for (e.g. 'admin')
 - **facility** - the facility the event was logged to (e.g. 'myplugin')
 - **level** - the level of the event (e.g. 'info', 'warning', 'error')
-
 
 ## Usage ##
 
@@ -91,6 +91,9 @@ Current attributes and defaults are:
     'offset' => '', // offset for the limit if desired
     ```
 
+## Libraries ##
+
+- DataTables 1.13.2 (https://datatables.net/)
 
 ## Changelog ##
 

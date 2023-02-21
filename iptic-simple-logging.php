@@ -9,6 +9,8 @@
  * Author URI:        http://iptic.com
  * Text Domain:       iptic-simple-logging
  * Domain Path:       /languages
+ * License:           GPL-3.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0-standalone.html
  *
  * This plugin provides a simple logging mechanism to the database.
  *
