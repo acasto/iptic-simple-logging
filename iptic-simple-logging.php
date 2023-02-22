@@ -3,7 +3,7 @@
  * Plugin Name:       Iptic Simple Logging
  * Plugin URI:        http://iptic.com/plugins
  * Description:       A plugin to enable simple logging to the database
- * Version:           0.1.0
+ * Version:           0.2.0
  * Update URI:        https://iptic.com
  * Author:            Adam Casto
  * Author URI:        http://iptic.com

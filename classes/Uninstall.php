@@ -1,4 +1,8 @@
 <?php
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 /**
  * Fired during plugin activation
@@ -27,22 +31,9 @@ class Uninstall {
 	 *
 	 * Long Description.
 	 *
-	 * @since    0.1.0
+	 * @since    0.2.0
 	 */
 	public static function run(): void {
-		// some basic security stuff
-		if ( ! current_user_can( 'activate_plugins' ) ) {
-			return;
-		}
-		check_admin_referer( 'bulk-plugins' );
-		
-		// Important: Check if the file is the one
-		// that was registered during the uninstall hook.
-		if ( __FILE__ !== WP_UNINSTALL_PLUGIN ) {
-			return;
-		}
-		
-		// TODO: test this on a remote server since we can't delete locally
 		global $wpdb;
 		
 		// removes the table we created during installation
