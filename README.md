@@ -1,4 +1,6 @@
-# Description #
+# Iptic Simple Logging #
+
+## Description ##
 This plugin provides a simple mechanism to log events to a database table and display them in the 
 admin area using the DataTables library. 
 

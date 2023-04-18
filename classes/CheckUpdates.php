@@ -4,10 +4,13 @@
 *
 * @link       http://iptic.com
 * @since      0.2.0
+* @version    v0.3.0
 *
 */
 
 namespace Iptic\SL;
+
+use JsonException;
 
 /**
  * A class that provides update functionality for the Iptic Plugin Updates plugin
@@ -66,14 +69,27 @@ class CheckUpdates {
 					'key'    => hash( 'md5', self::LICENSE_KEY ),
 				),
 			);
-			$remote_check      = wp_remote_post( $url, $args );
-			$response          = json_decode( wp_remote_retrieve_body( $remote_check ), true );
-			// might want to eventually add some better error handling here
-			if ( is_array($response) && array_key_exists( $plugin_file, $response ) ) {
+			$remote_check = wp_remote_post( $url, $args );
+			if ( is_wp_error( $remote_check ) ) {
+				// Handle WP_Error object
+				error_log( 'Error checking for updates: ' . $remote_check->get_error_message() );
+				return $update;
+			}
+			try {
+				$response = json_decode( wp_remote_retrieve_body( $remote_check ), true, 512, JSON_THROW_ON_ERROR );
+			} catch ( JsonException $e ) {
+				// Handle JSON decoding error
+				error_log( 'Error decoding JSON response: ' . $e->getMessage() );
+				return $update;
+			}
+			if ( array_key_exists( $plugin_file, $response ) ) {
 				$update['name']    = $response[ $plugin_file ]['name'];
 				$update['slug']    = $response[ $plugin_file ]['slug'];
 				$update['version'] = $response[ $plugin_file ]['version'];
 				$update['package'] = $response[ $plugin_file ]['package'];
+			} else {
+				// Handle invalid response
+				error_log( 'Invalid response while checking for updates' );
 			}
 		}
 		return $update;
