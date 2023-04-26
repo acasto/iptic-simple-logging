@@ -3,7 +3,7 @@
  * Plugin Name:       Iptic Simple Logging
  * Plugin URI:        http://iptic.com/plugins
  * Description:       A plugin to enable simple logging to the database
- * Version:           0.2.0
+ * Version:           0.3.0
  * Update URI:        https://iptic.com
  * Author:            Adam Casto
  * Author URI:        http://iptic.com
@@ -38,10 +38,6 @@ register_uninstall_hook( __FILE__, '\Iptic\SL\Uninstall::run' );
 
 // stuff that needs to be run after everything else is loaded
 add_action( 'wp_loaded', static function() {
-	// default logging behavior can be disabled with the isl_default_logging filter
-	if ( apply_filters( 'isl_default_logging', true ) ) {
-		require_once( 'inc/hook_logging.php' );
-	}
 	// admin section can be disabled with the isl_admin filter
 	if ( is_admin() && apply_filters( 'isl_admin', true ) ) {
 		new Iptic\SL\Admin();

@@ -58,7 +58,7 @@ class LogDB {
 			id mediumint UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 			time timestamp NOT NULL,
 			message text NOT NULL,
-			data tinytext,
+			data text,
 			user varchar(60),
 			facility varchar(20),
 			level varchar(20),

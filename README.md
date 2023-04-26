@@ -17,23 +17,9 @@ be created automatically if it does not already exist. The table will have the f
 
 ## Usage ##
 
-The following events are logged by default:
-
-- user login
-- user logout
-- user registration
-- user password reset
-- user profile update
-- user deleted
-
-This default logging behavior can be disabled by adding the following to your theme's functions.php file or similar:
-```
-    add_filter( 'isl_default_logging', '__return_false' );
-```
-
 For logging your own events, while you can log with *\Iptic\SL\Log::log()* directly, it is recommended that you create your 
 own wrapper function so that you can more easily customize the default values. The same with *\Iptic\SL\Log::get_logs()*
-since it will require handling of the returned object or array anyways (e.g. for use in a shortcode). 
+since it will require handling of the returned object or array anyway (e.g. for use in a shortcode). 
 
 ### Methods ###
 
