@@ -17,7 +17,9 @@ be created automatically if it does not already exist. The table will have the f
 
 **NOTE:** This plugin as-is checks for updates from iptic.com. If you do not want this behavior, for example if you are
 forking this plugin, you can disable it by removing the CheckUpdates.php file and the line in iptic-simple-logging.php 
-that instantiates it. 
+that instantiates it. You can also disable update checking using the 'isl_update' filter:
+```add_filter( 'isl_update', '__return_false' );```
+
 
 ## Usage ##
 
@@ -64,6 +66,9 @@ The following filters are available:
 
 - **isl_admin** - can be used to disable the admin display for the plugin by returning false.
   - Example: ```add_filter( 'isl_admin', '__return_false' );```
+
+- **isl_update** - can be used to disable the update checking for the plugin by returning false.
+  - Example: ```add_filter( 'isl_update', '__return_false' );```
 
 - **ipticsl_menu_name** - can be used to change the menu name for the plugin.
 
