@@ -4,7 +4,7 @@
 *
 * @link       http://iptic.com
 * @since      0.2.0
-* @version    v0.3.0
+* @version    v0.4.0
 *
 */
 
@@ -23,7 +23,7 @@ class CheckUpdates {
 	 * Some constants for the class
 	 */
 	private const DOMAIN = 'iptic.com';
-	private const LICENSE_KEY = 'b8453167-c546-4cdd-9d3a-ff2d7e24d218';
+	private const LICENSE_KEY = '';
 	// for now, I'm just including the license here as a constant but will eventually have a way to pass it in
 	// externally so that it can be stored in the database for individual licensing.
 	
@@ -60,13 +60,18 @@ class CheckUpdates {
 	 * @return array
 	 */
 	public function update_plugins_check( $update, array $plugin_data, string $plugin_file, array $locales ) {
+		// return $update if 'isl_update' filter returns false
+		if ( ! apply_filters( 'isl_update', true ) ) {
+			return $update;
+		}
+		$license_key = defined('self::LICENSE_KEY') ? self::LICENSE_KEY : '';
 		if ( $this->name === $plugin_data['TextDomain'] ) {
 			$url = 'https://' . self::DOMAIN . '/wp-json/iptic-plugin-updates/v1/check';
 			$args = array(
 				'timeout' => 5,
 				'body' => array(
 					'plugin' => $this->name,
-					'key'    => hash( 'md5', self::LICENSE_KEY ),
+					'key'    => hash( 'md5', $license_key ),
 				),
 			);
 			$remote_check = wp_remote_post( $url, $args );
