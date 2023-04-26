@@ -85,6 +85,15 @@ Current attributes and defaults are:
 
 ## Changelog ##
 
-### 0.1.0 ###
-- Initial release - 02/20/2023
+### 0.3.0 (04/26/2023) ###
+- Removed default hook logging due to too much variability between sites
+- Improved README
+
+### 0.2.0 (02/21/2023) ###
+- Added license
+- Added update class
+- Tweaked uninstallation code
+ 
+### 0.1.0 (02/20/2023) ###
+- Initial release
 
