@@ -28,7 +28,7 @@ class Admin {
 				add_action( 'admin_enqueue_scripts',  static function() {
 					wp_enqueue_style( self::_plugin_name(), plugins_url( '../assets/css/admin/style.css', __FILE__ ) );
                     wp_enqueue_style( 'datatables-css', plugins_url( '../assets/DataTables/datatables.min.css', __FILE__ ) );
-                    wp_enqueue_script( 'datatables-js', plugins_url( '../assets/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), '1.13.2', true );
+                    wp_enqueue_script( 'datatables-js', plugins_url( '../assets/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), '1.13.4', true );
 				} );
 				add_action( 'admin_footer', array( $instance, 'init_datatables' ) );
 			}
