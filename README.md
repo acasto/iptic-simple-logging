@@ -15,6 +15,10 @@ be created automatically if it does not already exist. The table will have the f
 - **facility** - the facility the event was logged to (e.g. 'myplugin')
 - **level** - the level of the event (e.g. 'info', 'warning', 'error')
 
+**NOTE:** This plugin as-is checks for updates from iptic.com. If you do not want this behavior, for example if you are
+forking this plugin, you can disable it by removing the CheckUpdates.php file and the line in iptic-simple-logging.php 
+that instantiates it. 
+
 ## Usage ##
 
 For logging your own events, while you can log with *\Iptic\SL\Log::log()* directly, it is recommended that you create your 
